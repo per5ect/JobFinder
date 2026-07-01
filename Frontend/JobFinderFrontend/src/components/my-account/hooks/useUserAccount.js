@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {getAdminData} from "../../../services/adminService.js";
 import {getUserData} from "../../../services/userService.js";
 
@@ -8,7 +8,7 @@ export function useUserAccount(userRole) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const fetchUserData = async () => {
+    const fetchUserData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
@@ -29,7 +29,7 @@ export function useUserAccount(userRole) {
         finally {
             setLoading(false);
         }
-    };
+    }, [userRole]);
 
     return { user, loading, error, fetchUserData };
 }
