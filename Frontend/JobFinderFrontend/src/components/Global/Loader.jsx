@@ -1,10 +1,10 @@
-export function Loader(){
-    return (
-        <>
-            <div className="flex justify-center items-center mt-20">
-                <span className="loader"></span>
-            </div>
-            <style>{`
+export function Loader() {
+  return (
+    <>
+      <div className="flex justify-center items-center mt-20">
+        <span className="loader"></span>
+      </div>
+      <style>{`
                 .loader {
                     border: 4px solid #f3f3f3;
                     border-top: 4px solid #2EA4F1;
@@ -18,6 +18,6 @@ export function Loader(){
                     100% { transform: rotate(360deg); }
                 }
             `}</style>
-        </>
-    )
+    </>
+  );
 }

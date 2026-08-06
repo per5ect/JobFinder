@@ -6,6 +6,7 @@ import {
 import { useEffect } from "react";
 
 export function VacancyElement({ vacancyData, userRole }) {
+  // Přečte aktuální seznam oblíbených nabídek ze store
   const favoriteVacancies = useSelector((state) =>
     Array.isArray(state.favorites.items) ? state.favorites.items : [],
   );
@@ -15,6 +16,7 @@ export function VacancyElement({ vacancyData, userRole }) {
     dispatch(fetchFavorites());
   }, [dispatch]);
 
+  // Zjistí, zda je právě zobrazovaná nabídka mezi oblíbenými
   const isFavorite = favoriteVacancies.some((fav) => fav.id === vacancyData.id);
 
   const handleToggleFavorite = () => {
@@ -57,6 +59,7 @@ export function VacancyElement({ vacancyData, userRole }) {
       <div className="flex flex-col gap-5 xl:items-end xl:min-w-[220px]">
         <p className="text-black t-heading">{vacancyData.salary} $/ month</p>
         {userRole !== "ROLE_COMPANY" ? (
+          // Uchazeč, administrátor i nepřihlášený návštěvník vidí odkaz na detail nabídky
           <a
             href={"/all-vacancies/" + vacancyData.id}
             className="text-center bg-green font-kosugi rounded-xl py-3.5 px-6 w-full"
@@ -64,6 +67,7 @@ export function VacancyElement({ vacancyData, userRole }) {
             More about job
           </a>
         ) : (
+          // Firma místo toho vidí odkaz na přehled přihlášek k této nabídce
           <a
             href={
               "/vacancy-applications/" +
@@ -77,12 +81,14 @@ export function VacancyElement({ vacancyData, userRole }) {
           </a>
         )}
         {userRole === "ROLE_COMPANY" || userRole === "ROLE_ADMIN" ? (
+          // Firma a administrátor mohou nabídku smazat
           <button className="bg-red button-kosugi rounded-xl py-3.5 px-6 w-full">
             Delete
           </button>
         ) : (
           <>
             {userRole === "ROLE_USER" && (
+              // Uchazeč místo toho může nabídku přidat či odebrat z oblíbených
               <button
                 onClick={handleToggleFavorite}
                 className={`rounded-xl py-3.5 px-6 button-kosugi ${

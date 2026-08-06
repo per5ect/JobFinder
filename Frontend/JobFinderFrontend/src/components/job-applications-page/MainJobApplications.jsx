@@ -5,9 +5,6 @@ import { useParams } from "react-router";
 export function MainJobApplications() {
   const { vacancyName, vacancyId } = useParams();
 
-  console.log("vacancyName:", vacancyName); // → Junior front-end developer
-  console.log("vacancyId:", vacancyId); // → 5
-
   return (
     <main>
       <Layout>

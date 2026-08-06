@@ -19,7 +19,6 @@ export function MainSuitableVacancies() {
   const [hasMore, setHasMore] = useState(true);
   const [userCV, setUserCV] = useState("");
   const [userResumeTechnologies, setUserResumeTechnologies] = useState(null);
-  console.log(userCV);
 
   const [filters, setFilters] = useState({
     title: "",

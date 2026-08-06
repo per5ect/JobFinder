@@ -6,38 +6,38 @@ const BACKEND_USER_API_URL = `${API_BASE_URL2}/admin`;
 const token = localStorage.getItem("token");
 
 const apiAdmin = axios.create({
-    baseURL: BACKEND_USER_API_URL,
-    headers: {
-        "Authorization": `Bearer ${token}`
-    },
-})
+  baseURL: BACKEND_USER_API_URL,
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
 export const getAdminData = async () => {
-    const response = await apiAdmin.get("/my-account");
-    return response.data;
-}
+  const response = await apiAdmin.get("/my-account");
+  return response.data;
+};
 
 export const createTechnology = async (technologyName) => {
-    const response = await apiAdmin.post("/add-technology", technologyName);
-    return response.data;
-}
+  const response = await apiAdmin.post("/add-technology", technologyName);
+  return response.data;
+};
 
 export const deleteTechnology = async (technologyId) => {
-    const response = await apiAdmin.delete(`/delete-technology/${technologyId}`);
-    return response.data;
-}
+  const response = await apiAdmin.delete(`/delete-technology/${technologyId}`);
+  return response.data;
+};
 
 export const deleteVacancy = async (vacancyId) => {
-    const response = await apiAdmin.delete(`/delete-vacancy/${vacancyId}`);
-    return response.data;
-}
+  const response = await apiAdmin.delete(`/delete-vacancy/${vacancyId}`);
+  return response.data;
+};
 
 export const getAllCompanies = async () => {
-    const response = await apiAdmin.get("/all-companies");
-    return response.data;
-}
+  const response = await apiAdmin.get("/all-companies");
+  return response.data;
+};
 
 export const getAllUsers = async () => {
-    const response = await apiAdmin.get("/all-users");
-    return response.data;
-}
+  const response = await apiAdmin.get("/all-users");
+  return response.data;
+};

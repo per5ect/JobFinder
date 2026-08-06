@@ -8,21 +8,10 @@
 
 **JobFinder** is a full-stack job search platform that connects job seekers with companies. Candidates upload their resume, and the platform uses the **Gemini AI API** to parse and analyze it, then surfaces the most relevant vacancies. Companies can post job listings and review applicants. An admin panel provides full control over the platform.
 
----
-
-## Documentation
-
-| Document | Link |
-|---|---|
-| Software Requirements Specification (SRS) | [SRS JobFinder.pdf](SRS%20JobFinder.pdf) |
-| Software Design Document (SDD) | [SDD Jobfinder.pdf](SDD%20Jobfinder.pdf) |
-| Figma Design | [Open in Figma](https://www.figma.com/design/CLQlBV5p9wejuXqliZ6CZE/JobFinder?node-id=0-1&t=nKr3H12D26vQ6Lv6-1) |
-
----
-
 ## Features
 
 ### For Job Seekers
+
 - Register, verify email, and build a profile
 - Upload a PDF resume — parsed automatically with **Apache PDFBox**
 - AI-powered resume analysis via **Gemini API** — extracts skills and experience
@@ -33,6 +22,7 @@
 - Track application statuses
 
 ### For Companies
+
 - Register a company account with email verification
 - Post, edit, and manage job vacancies
 - Specify required technologies per vacancy
@@ -40,6 +30,7 @@
 - Upload a company logo via **Cloudinary**
 
 ### For Admins
+
 - Full platform administration panel
 - Manage users, companies, vacancies, and technologies
 - Moderate content
@@ -69,40 +60,40 @@ The three core services (Frontend, Backend, PostgreSQL) are orchestrated with **
 
 ### Frontend
 
-| Technology | Purpose |
-|---|---|
-| React 19 | UI framework |
-| Vite 6 | Build tool & dev server |
-| Tailwind CSS 4 | Utility-first styling |
-| Redux Toolkit | Global state management |
-| React Router 7 | Client-side routing |
-| Axios | HTTP client |
-| Headless UI | Accessible UI components |
+| Technology     | Purpose                     |
+| -------------- | --------------------------- |
+| React 19       | UI framework                |
+| Vite 6         | Build tool & dev server     |
+| Tailwind CSS 4 | Utility-first styling       |
+| Redux Toolkit  | Global state management     |
+| React Router 7 | Client-side routing         |
+| Axios          | HTTP client                 |
+| Headless UI    | Accessible UI components    |
 | react-dropzone | Drag-and-drop resume upload |
-| jwt-decode | JWT token parsing on client |
+| jwt-decode     | JWT token parsing on client |
 
 ### Backend
 
-| Technology | Purpose |
-|---|---|
-| Spring Boot 3.4.3 | Application framework |
-| Java 17 | Language |
-| Spring Security + JWT | Authentication & authorization |
-| Spring Data JPA + Hibernate | ORM & database access |
-| PostgreSQL 16 | Relational database |
-| Spring Mail | Email verification |
-| Apache PDFBox | PDF resume text extraction |
-| Gemini API | AI resume analysis & vacancy matching |
-| Cloudinary | Cloud image/file storage |
-| Lombok | Boilerplate reduction |
+| Technology                  | Purpose                               |
+| --------------------------- | ------------------------------------- |
+| Spring Boot 3.4.3           | Application framework                 |
+| Java 17                     | Language                              |
+| Spring Security + JWT       | Authentication & authorization        |
+| Spring Data JPA + Hibernate | ORM & database access                 |
+| PostgreSQL 16               | Relational database                   |
+| Spring Mail                 | Email verification                    |
+| Apache PDFBox               | PDF resume text extraction            |
+| Gemini API                  | AI resume analysis & vacancy matching |
+| Cloudinary                  | Cloud image/file storage              |
+| Lombok                      | Boilerplate reduction                 |
 
 ### Infrastructure
 
-| Technology | Purpose |
-|---|---|
-| Docker & Docker Compose | Containerization & orchestration |
-| Nginx | Frontend static file serving & reverse proxy |
-| Maven | Backend build tool |
+| Technology              | Purpose                                      |
+| ----------------------- | -------------------------------------------- |
+| Docker & Docker Compose | Containerization & orchestration             |
+| Nginx                   | Frontend static file serving & reverse proxy |
+| Maven                   | Backend build tool                           |
 
 ---
 
@@ -133,14 +124,14 @@ JobFinder/
 
 ### Backend Controllers
 
-| Controller | Responsibility |
-|---|---|
-| `UserAuthenticationController` | User registration, login, email verification |
-| `CompanyAuthenticationController` | Company registration, login, email verification |
-| `UserController` | User profile, resume upload, applications, favourites |
-| `CompanyController` | Vacancy CRUD, applicant management |
-| `PublicController` | Public vacancy listing and search |
-| `AdminController` | Admin-only platform management |
+| Controller                        | Responsibility                                        |
+| --------------------------------- | ----------------------------------------------------- |
+| `UserAuthenticationController`    | User registration, login, email verification          |
+| `CompanyAuthenticationController` | Company registration, login, email verification       |
+| `UserController`                  | User profile, resume upload, applications, favourites |
+| `CompanyController`               | Vacancy CRUD, applicant management                    |
+| `PublicController`                | Public vacancy listing and search                     |
+| `AdminController`                 | Admin-only platform management                        |
 
 ---
 
@@ -204,11 +195,11 @@ GEMINI_API_URL=
 docker compose up --build
 ```
 
-| Service | URL |
-|---|---|
-| Frontend | http://localhost |
+| Service     | URL                   |
+| ----------- | --------------------- |
+| Frontend    | http://localhost      |
 | Backend API | http://localhost:8081 |
-| PostgreSQL | localhost:5432 |
+| PostgreSQL  | localhost:5432        |
 
 ---
 
@@ -220,9 +211,3 @@ docker compose up --build
 <img width="1434" height="678" alt="Resume analysis" src="https://github.com/user-attachments/assets/9c1247a0-a0f6-45d2-94fa-fd6abda1bfcd" />
 <img width="1162" height="695" alt="AI-matched vacancies" src="https://github.com/user-attachments/assets/49a7b69e-14ec-47e1-a2de-1bb0dda2f967" />
 <img width="1436" height="698" alt="Admin panel" src="https://github.com/user-attachments/assets/d0c255bb-9134-49ba-88f5-c303426c5faa" />
-
----
-
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).

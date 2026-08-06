@@ -40,8 +40,6 @@ export function MainAllVacancies() {
         setVacancies((prev) => [...prev, ...data]);
         setPage((prev) => prev + 1);
       }
-      console.log(data);
-
       setHasMore(data.length === 10);
     } catch (error) {
       console.log(error);
