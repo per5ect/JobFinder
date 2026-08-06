@@ -42,9 +42,11 @@ public class VacancyMatchingService {
         } catch (NumberFormatException e) {
             throw new RuntimeException("Invalid experience years");
         }
-
+        // Nejprve se vyberou jen nabídky, na které uchazeč svou praxí dosahuje
         List<Vacancy> vacancies = vacancyRepository.findVacanciesByMaxExperience(experience);
 
+        // Pro zbylé nabídky se v metodě calculateMatchScore spočítá shoda technologií,
+        // nulové shody se odfiltrují a výsledek se seřadí od nejlépe odpovídající nabídky
         return vacancies.stream()
                 .map(vacancy -> Map.entry(vacancy, calculateMatchScore(vacancy.getTechnologies(), techStack)))
                 .filter(entry -> entry.getValue() > 0)
@@ -53,6 +55,14 @@ public class VacancyMatchingService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Vypočítá míru shody mezi technologiemi vyžadovanými nabídkou
+     * a technologiemi uvedenými v životopisu uchazeče. Výsledné skóre je
+     * poměr počtu technologií nabídky nalezených v životopisu (matchCount)
+     * k celkovému počtu technologií, které nabídka vyžaduje
+     * (vacancyTechNames.size()) — hodnota v rozsahu 0 až 1, kde 1 znamená
+     * úplnou shodu všech požadovaných technologií.
+     */
     private double calculateMatchScore(Set<Technology> vacancyTechnologies, List<String> userTechStack) {
         if (vacancyTechnologies.isEmpty()) return 0;
 

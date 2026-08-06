@@ -24,11 +24,10 @@ public class ResumeService {
     private final Cloudinary cloudinary;
     private final UserRepository userRepository;
 
+    /**
+     * Nahraje životopis uživatele do úložiště Cloudinary a uloží odkaz na něj do databáze.
+     */
     public Resume uploadResume(MultipartFile file, String userEmail) throws IOException {
-        System.out.println("📩 Получен файл от пользователя: " + userEmail);
-        System.out.println("Имя файла: " + file.getOriginalFilename());
-        System.out.println("Размер файла: " + file.getSize());
-
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -40,10 +39,7 @@ public class ResumeService {
                     "public_id", user.getFirstName() + user.getLastName() + "_resume_" + user.getId(),
                     "overwrite", true
             ));
-            System.out.println("Cloudinary ответ: " + uploadResult);
         }
-
-        System.out.println("✅ Загружено в Cloudinary: " + uploadResult.get("secure_url"));
 
         String fileUrl = uploadResult.get("secure_url").toString();
 

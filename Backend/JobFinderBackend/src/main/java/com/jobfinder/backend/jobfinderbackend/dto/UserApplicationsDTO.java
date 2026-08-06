@@ -1,6 +1,5 @@
 package com.jobfinder.backend.jobfinderbackend.dto;
 
-import com.jobfinder.backend.jobfinderbackend.models.ApplicationStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

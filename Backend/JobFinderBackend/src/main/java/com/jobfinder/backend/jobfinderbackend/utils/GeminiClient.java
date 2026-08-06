@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @Slf4j
@@ -22,16 +23,38 @@ public class GeminiClient {
     @Value("${gemini.api.url}")
     private String apiLink;
 
-    private final String prompt = "Analyze the following resume and return a single line containing all mentioned technologies (programming languages, tools, frameworks) separated by commas it is important that technologies are not duplicated, followed by the number of full years of work experience as the last value append the total number of full years (example 1, 2, 3 not the 1.2 or 1,1) of actual IT-related work experience as a single number in work experience include any job and internship, as long as it is related to the IT field today is 21.04.2025. it must be .Do not include any descriptions or duplicate technologies. Do not include any formatting, markdown, or line breaks. Output only the raw values. Here is the resume: ";
+    private final String prompt = """
+    You are analyzing a resume to extract structured data for a job-matching system.
+
+    Extract ONLY technical skills relevant to IT roles: programming languages, frameworks,
+    libraries, databases, tools, platforms, and methodologies (e.g. Java, Spring, PostgreSQL,
+    Docker, Scrum, REST API). Do NOT include soft skills, spoken languages (e.g. English,
+    German), certifications, courses, degrees, or job titles.
+
+    Return exactly one line in this format:
+    tech1, tech2, tech3, ..., N
+
+    Where:
+    - tech1, tech2, ... are the extracted technologies, each listed only once (no duplicates),
+      in the order they appear in the resume
+    - N is the last value: total number of full years of IT-related work experience (including
+      internships), calculated relative to the current date: %s
+    - N must be a single whole number (e.g. 2, not 2.5 or "2 years")
+
+    Do not include any explanation, formatting, markdown, or line breaks. Output only the raw
+    comma-separated values described above.
+
+    Resume:
+    """.formatted(LocalDate.now());
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * Odešle text životopisu do Gemini API a vrátí surovou textovou odpověď modelu.
+     */
     public String analyzeResumeText(String resumeText) {
         try {
-            log.info("[Gemini] Sending request to Gemini API...");
-            log.debug("[Gemini] Resume text length: {} chars", resumeText.length());
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -44,13 +67,9 @@ public class GeminiClient {
             );
 
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
-
             ResponseEntity<String> response = restTemplate.exchange(
                     apiLink + apiKey, HttpMethod.POST, request, String.class
             );
-
-            log.info("[Gemini] Response status: {}", response.getStatusCode());
-            log.debug("[Gemini] Raw response body: {}", response.getBody());
 
             JsonNode json = objectMapper.readTree(response.getBody());
             String geminiAnswer = json
@@ -59,11 +78,8 @@ public class GeminiClient {
                     .path("parts").get(0)
                     .path("text")
                     .asText();
-
-            log.info("[Gemini] Parsed answer: {}", geminiAnswer);
             return geminiAnswer;
         } catch (Exception e) {
-            log.error("[Gemini] Error while calling Gemini API: {}", e.getMessage(), e);
             throw new RuntimeException("Error while Geminis analyzing resume text " + e);
         }
     }

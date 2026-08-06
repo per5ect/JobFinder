@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,9 +47,9 @@ public class Company implements UserDetails {
     @Column(nullable = false)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "company_roles", // Название таблицы-связки
-            joinColumns = @JoinColumn(name = "company_id"), // Связь с users
-            inverseJoinColumns = @JoinColumn(name = "role_id") // Связь с roles
+            name = "company_roles",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
 

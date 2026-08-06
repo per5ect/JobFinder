@@ -46,22 +46,15 @@ public class CompanyAuthenticationService {
         Role companyRole = roleRepository.findByRoleName(RoleEnum.ROLE_COMPANY)
                 .orElseThrow(() -> new RuntimeException("Role Company is not found"));
 
-        System.out.println("Начинаем регистрацию: " + input.getCompanyEmail());
-
         Company company = new Company(input.getCompanyEmail(), passwordEncoder.encode(input.getPassword()), input.getCompanyName(), input.getCompanyPhone());
         company.setVerificationCode(generateVerificationCode());
         company.setVerificationCodeExpiredAt(LocalDateTime.now().plusMinutes(15));
         company.setRoles(Set.of(companyRole));
         company.setEnabled(false);
 
-        System.out.println("Сохраняем company в базу...");
         Company savedCompany = companyRepository.save(company);
-        System.out.println("Пользователь сохранен с ID: " + savedCompany.getId());
 
-        System.out.println("Отправляем письмо...");
         sendVerificationEmail(savedCompany);
-        System.out.println("Письмо отправлено!");
-
         return savedCompany;
     }
 

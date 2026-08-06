@@ -48,9 +48,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_roles", // Название таблицы-связки
-            joinColumns = @JoinColumn(name = "user_id"), // Связь с users
-            inverseJoinColumns = @JoinColumn(name = "role_id") // Связь с roles
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
 

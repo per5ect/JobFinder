@@ -33,7 +33,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
-
+    /**
+     * Ověří JWT token z hlavičky příchozího požadavku a v případě platnosti
+     * nastaví autentizovanou identitu uživatele do bezpečnostního kontextu.
+     */
     @Override
     protected void doFilterInternal(
             @NotNull HttpServletRequest request,

@@ -21,7 +21,6 @@ public class UserAuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody RegisterUserDTO input) {
-        System.out.println(">>> Получен запрос на регистрацию: " + input.getEmail());
         User user = authenticationService.signUp(input);
         return ResponseEntity.ok(user);
     }

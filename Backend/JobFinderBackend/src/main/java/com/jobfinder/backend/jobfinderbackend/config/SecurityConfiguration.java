@@ -33,6 +33,9 @@ public class SecurityConfiguration {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
+    /**
+     * Definuje pravidla zabezpečení HTTP požadavků, přístup podle role a JWT autentizaci.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http

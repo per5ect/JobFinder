@@ -38,10 +38,9 @@ public class JWTService {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> extraClaims = new HashMap<>();
 
-        // Добавляем роли пользователя в виде строки "ROLE_USER,ROLE_ADMIN"
         if (userDetails instanceof User user) {
-            String role = user.getRoles().iterator().next().getRoleName().name(); // Берём первую (и единственную) роль
-            extraClaims.put("role", role); // Сохраняем в токен
+            String role = user.getRoles().iterator().next().getRoleName().name();
+            extraClaims.put("role", role);
         } else if(userDetails instanceof Company company){
             String role = company.getRoles().iterator().next().getRoleName().name();
             extraClaims.put("role", role);

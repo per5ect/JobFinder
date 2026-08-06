@@ -43,22 +43,15 @@ public class UserAuthenticationService {
         Role userRole = roleRepository.findByRoleName(RoleEnum.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Role User is not found"));
 
-
-        System.out.println("Начинаем регистрацию: " + input.getEmail());
-
         User user = new User(input.getEmail(), passwordEncoder.encode(input.getPassword()), input.getFirstName(), input.getLastName());
         user.setVerificationCode(generateVerificationCode());
         user.setVerificationCodeExpiredAt(LocalDateTime.now().plusMinutes(15));
         user.setRoles(Set.of(userRole));
         user.setEnabled(false);
 
-        System.out.println("Сохраняем пользователя в базу...");
         User savedUser = userRepository.save(user);
-        System.out.println("Пользователь сохранен с ID: " + savedUser.getId());
 
-        System.out.println("Отправляем письмо...");
         sendVerificationEmail(savedUser);
-        System.out.println("Письмо отправлено!");
 
         return savedUser;
     }

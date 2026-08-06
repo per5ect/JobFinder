@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
-    public void deleteVacancyById(Long id);
-
     @Query("SELECT v FROM Vacancy v WHERE v.workExperience <= :experience")
     List<Vacancy> findVacanciesByMaxExperience(@Param("experience") Integer experience);
 

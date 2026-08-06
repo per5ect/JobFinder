@@ -25,6 +25,11 @@ public class ResumeAnalysisService {
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
 
+    /**
+     * Provede kompletní analýzu životopisu uživatele: extrahuje text z PDF,
+     * odešle jej ke zpracování rozhraní Gemini, rozparsuje odpověď na technologie
+     * a roky praxe a výsledek uloží do databáze.
+     */
     public ResumeAnalysisResponseDTO analyzeResume(String userEmail){
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -33,7 +38,6 @@ public class ResumeAnalysisService {
                 .orElseThrow(() -> new IllegalStateException("Resume not found"));
 
         String resumeText = resumeParser.extractTextFromPDF(resume.getCloudLink());
-        System.out.println(resumeText);
         String geminiResponse = geminiClient.analyzeResumeText(resumeText);
 
         List<String> splitResponse = Arrays.stream(geminiResponse.split(","))
@@ -46,6 +50,7 @@ public class ResumeAnalysisService {
         String experience;
         String lastElement = splitResponse.get(splitResponse.size() - 1);
 
+        // 5 let praxe je v systému považováno za senior úroveň, vyšší hodnoty se dále neodlišují
         if (parseInt(lastElement) > 5) {
             experience = "5";
         } else {
@@ -53,7 +58,6 @@ public class ResumeAnalysisService {
         }
 
         List<String> techStack = splitResponse.subList(0, splitResponse.size() - 1);
-        System.out.println(techStack);
 
         resume.setTechStackFromCV(techStack);
         resume.setExperienceYears(experience);
